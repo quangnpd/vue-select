@@ -172,14 +172,10 @@ export default {
             default: function (val) {
                 let applyValue = val
                 if (this.multiple && typeof val === 'object' && this.valueAs) {
-                    // if (typeof val === 'object' && this.valueAs) {
-
                     applyValue = Array.isArray(val) ? val.map(item => item ? item[this.valueAs] : null) : [] // val ? val[this.valueAs] : null
                 } else if (typeof val === 'object' && this.valueAs) {
                     applyValue = val ? val[this.valueAs] : null
                 }
-                console.log('[APPLY VALUE]', applyValue)
-
                 this.$emit('input', applyValue)
             }
         },
@@ -425,7 +421,6 @@ export default {
             } else if (this.valueAs) {
                 res = this.options.find(item => item && item[this.valueAs] === val)
             }
-            console.log('[getMultibleValue]:', res, this.options)
             return res
         },
 
@@ -714,7 +709,6 @@ export default {
          * @return {Array}
          */
         valueAsArray() {
-            console.log('valueAsArray', this.mutableValue)
             if (this.multiple) {
                 return this.mutableValue
             } else if (this.mutableValue) {
