@@ -18,7 +18,9 @@ new Vue({
     options: countries,
     ajaxRes: [],
     people: [],
-    fuseSearchOptions
+    fuseSearchOptions,
+    test: 'foo',
+    test2: ['foo', 'foo2']
   },
   methods: {
     search(search, loading) {

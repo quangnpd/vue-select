@@ -9,7 +9,6 @@
     <!--<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">-->
     <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css">-->
     <style>
-        
         #app {
             height: 95vh;
             display: flex;
@@ -34,7 +33,10 @@
         <v-select placeholder="default, options=[1,5,10]" :options="[1,5,10]"></v-select>
         <v-select placeholder="multiple" multiple :options="options"></v-select>
         <v-select placeholder="multiple, taggable" multiple taggable :options="options" no-drop></v-select>
-        <v-select placeholder="multiple, taggable, push-tags" multiple push-tags taggable :options="[{label: 'Foo', value: 'foo'}]"></v-select>
+        <v-select v-model="test" value-as="value" placeholder="multiple, taggable, push-tags" push-tags taggable :options="[{label: 'Foo', value: 'foo'}, {label: 'Foo2', value: 'foo2'}, {label: 'Foo3', value: 'foo3'}]"></v-select>
+        {{test}}
+        <v-select v-model="test2" value-as="value" placeholder="multiple, taggable, push-tags" push-tags taggable multiple :options="[{label: 'Foo', value: 'foo'}, {label: 'Foo2', value: 'foo2'}, {label: 'Foo3', value: 'foo3'}]"></v-select>
+        {{test2}}
         <v-select placeholder="multiple, closeOnSelect=true" multiple :options="['cat', 'dog', 'bear']"></v-select>
         <v-select placeholder="multiple, closeOnSelect=false" multiple :close-on-select="false" :options="['cat', 'dog', 'bear']"></v-select>
         <v-select placeholder="searchable=false" :options="options" :searchable="false"></v-select>
@@ -56,24 +58,23 @@
             </template>
         </v-select>
         <v-select multiple placeholder="custom label template" :options="options">
-            <span
-                    slot="selected-option-container"
-                    slot-scope="props"
-                    class="selected-tag"
-            >
+            <span slot="selected-option-container" slot-scope="props" class="selected-tag">
                 {{ props.option.label }} ({{ props.option.value }})
-              <button v-if="props.multiple" @click="props.deselect(props.option)" type="button" class="close" aria-label="Remove option">
-                <span aria-hidden="true">&times;</span>
-              </button>
+                <button v-if="props.multiple" @click="props.deselect(props.option)" type="button" class="close" aria-label="Remove option">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </span>
         </v-select>
 
-        <v-select placeholder="disabled" disabled  value="disabled"></v-select>
+        <v-select placeholder="disabled" disabled value="disabled"></v-select>
         <v-select placeholder="disabled multiple" disabled multiple :value="['disabled', 'multiple']"></v-select>
-        <v-select placeholder="filterable=false, @search=searchPeople" label="first_name" :filterable="false" @search="searchPeople" :options="people"></v-select>
+        <v-select placeholder="filterable=false, @search=searchPeople" label="first_name" :filterable="false" @search="searchPeople"
+            :options="people"></v-select>
+
         <v-select placeholder="filtering with fuse.js" label="title" :options="fuseSearchOptions" :filter="fuseSearch">
             <template slot="option" scope="option">
-                <strong>{{ option.title }}</strong><br>
+                <strong>{{ option.title }}</strong>
+                <br>
                 <em>{{ `${option.author.firstName} ${option.author.lastName}` }}</em>
             </template>
         </v-select>
