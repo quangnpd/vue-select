@@ -1,6 +1,7 @@
 import pointerScroll from "../mixins/pointerScroll";
 import typeAheadPointer from "../mixins/typeAheadPointer";
 import ajax from "../mixins/ajax";
+import { ASCIIfolding } from "../mixins/folding-ascii";
 
 export default {
   mixins: [pointerScroll, typeAheadPointer, ajax],
@@ -232,7 +233,11 @@ export default {
     filterBy: {
       type: Function,
       default(option, label, search) {
-        return (label || "").toLowerCase().indexOf(search.toLowerCase()) > -1;
+        return (
+          ASCIIfolding(label || "")
+            .toLowerCase()
+            .indexOf(ASCIIfolding(search).toLowerCase()) > -1
+        );
       }
     },
 
