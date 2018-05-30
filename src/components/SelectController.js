@@ -376,8 +376,6 @@ export default {
     mutableOptions() {
       if (!this.taggable && this.resetOnOptionsChange) {
         this.mutableValue = this.multiple ? [] : null;
-      } else {
-        this.mutableValue = this.getMultibleValue(this.value);
       }
     },
 
