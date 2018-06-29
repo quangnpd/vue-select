@@ -1,7 +1,7 @@
-import pointerScroll from "../mixins/pointerScroll";
-import typeAheadPointer from "../mixins/typeAheadPointer";
-import ajax from "../mixins/ajax";
-import { ASCIIfolding } from "../mixins/folding-ascii";
+import pointerScroll from '../mixins/pointerScroll'
+import typeAheadPointer from '../mixins/typeAheadPointer'
+import ajax from '../mixins/ajax'
+import { ASCIIfolding } from '../mixins/folding-ascii'
 
 export default {
   mixins: [pointerScroll, typeAheadPointer, ajax],
@@ -27,7 +27,7 @@ export default {
     options: {
       type: Array,
       default() {
-        return [];
+        return []
       }
     },
 
@@ -56,7 +56,7 @@ export default {
      */
     maxHeight: {
       type: String,
-      default: "400px"
+      default: '400px'
     },
 
     /**
@@ -83,7 +83,7 @@ export default {
      */
     placeholder: {
       type: String,
-      default: ""
+      default: ''
     },
 
     /**
@@ -93,7 +93,7 @@ export default {
      */
     transition: {
       type: String,
-      default: "fade"
+      default: 'fade'
     },
 
     /**
@@ -122,7 +122,7 @@ export default {
      */
     label: {
       type: String,
-      default: "label"
+      default: 'label'
     },
 
     /**
@@ -145,19 +145,19 @@ export default {
     getOptionLabel: {
       type: Function,
       default(option) {
-        if (typeof option === "object") {
+        if (typeof option === 'object') {
           if (!option.hasOwnProperty(this.label)) {
             return console.warn(
               `[vue-select warn]: Label key "option.${this.label}" does not` +
                 ` exist in options object ${JSON.stringify(option)}.\n` +
-                "http://sagalbot.github.io/vue-select/#ex-labels"
-            );
+                'http://sagalbot.github.io/vue-select/#ex-labels'
+            )
           }
           if (this.label && option[this.label]) {
-            return option[this.label];
+            return option[this.label]
           }
         }
-        return option;
+        return option
       }
     },
 
@@ -171,13 +171,15 @@ export default {
     onChange: {
       type: Function,
       default: function(val) {
-        let applyValue = val;
-        if (this.multiple && typeof val === "object" && this.valueAs) {
-          applyValue = Array.isArray(val) ? val.map(item => (item ? item[this.valueAs] : null)) : []; // val ? val[this.valueAs] : null
-        } else if (typeof val === "object" && this.valueAs) {
-          applyValue = val ? val[this.valueAs] : null;
+        let applyValue = val
+        if (this.multiple && typeof val === 'object' && this.valueAs) {
+          applyValue = Array.isArray(val) ? val.map(item => (item ? item[this.valueAs] : null)) : [] // val ? val[this.valueAs] : null
+        } else if (typeof val === 'object' && this.valueAs) {
+          applyValue = val ? val[this.valueAs] : null
         }
-        this.$emit("input", applyValue);
+        if (applyValue !== undefined) {
+          this.$emit('input', applyValue)
+        }
       }
     },
 
@@ -234,10 +236,10 @@ export default {
       type: Function,
       default(option, label, search) {
         return (
-          ASCIIfolding(label || "")
+          ASCIIfolding(label || '')
             .toLowerCase()
             .indexOf(ASCIIfolding(search).toLowerCase()) > -1
-        );
+        )
       }
     },
 
@@ -256,12 +258,12 @@ export default {
       type: Function,
       default(options, search) {
         return options.filter(option => {
-          let label = this.getOptionLabel(option);
-          if (typeof label === "number") {
-            label = label.toString();
+          let label = this.getOptionLabel(option)
+          if (typeof label === 'number') {
+            label = label.toString()
           }
-          return this.filterBy(option, label, search);
-        });
+          return this.filterBy(option, label, search)
+        })
       }
     },
 
@@ -272,13 +274,13 @@ export default {
     createOption: {
       type: Function,
       default(newOption) {
-        if (typeof this.mutableOptions[0] === "object") {
+        if (typeof this.mutableOptions[0] === 'object') {
           newOption = {
             [this.label]: newOption
-          };
+          }
         }
-        this.$emit("option:created", newOption);
-        return newOption;
+        this.$emit('option:created', newOption)
+        return newOption
       }
     },
 
@@ -317,17 +319,17 @@ export default {
      */
     dir: {
       type: String,
-      default: "auto"
+      default: 'auto'
     }
   },
 
   data() {
     return {
-      search: "",
+      search: '',
       open: false,
       mutableValue: null,
       mutableOptions: []
-    };
+    }
   },
 
   watch: {
@@ -340,7 +342,7 @@ export default {
     value(val) {
       //check here
       if (this.valueHasChange(val)) {
-        this.mutableValue = this.getMultibleValue(val);
+        this.mutableValue = this.getMultibleValue(val)
       }
     },
 
@@ -352,9 +354,9 @@ export default {
      */
     mutableValue(val, old) {
       if (this.multiple) {
-        this.onChange ? this.onChange(val) : null;
+        this.onChange ? this.onChange(val) : null
       } else {
-        this.onChange && val !== old ? this.onChange(val) : null;
+        this.onChange && val !== old ? this.onChange(val) : null
       }
     },
 
@@ -365,7 +367,7 @@ export default {
      * @return {void}
      */
     options(val) {
-      this.mutableOptions = val;
+      this.mutableOptions = val
     },
 
     /**
@@ -375,9 +377,9 @@ export default {
      */
     mutableOptions() {
       if (!this.taggable && this.resetOnOptionsChange) {
-        this.mutableValue = this.multiple ? [] : null;
+        this.mutableValue = this.multiple ? [] : null
       } else {
-        this.mutableValue = this.getMultibleValue(this.value);
+        this.mutableValue = this.getMultibleValue(this.value)
       }
     },
 
@@ -388,7 +390,7 @@ export default {
      * @return {void}
      */
     multiple(val) {
-      this.mutableValue = val ? [] : null;
+      this.mutableValue = val ? [] : null
     }
   },
 
@@ -397,38 +399,38 @@ export default {
    * attach any event listeners.
    */
   created() {
-    this.mutableValue = this.getMultibleValue(this.value);
-    this.mutableOptions = this.options.slice(0);
-    this.mutableLoading = this.loading;
+    this.mutableValue = this.getMultibleValue(this.value)
+    this.mutableOptions = this.options.slice(0)
+    this.mutableLoading = this.loading
 
-    this.$on("option:created", this.maybePushTag);
+    this.$on('option:created', this.maybePushTag)
   },
 
   methods: {
     valueHasChange(val) {
       if (this.multiple) {
-        let flag = !Array.isArray(val) || !Array.isArray(this.value) || val.length !== this.value.length;
+        let flag = !Array.isArray(val) || !Array.isArray(this.value) || val.length !== this.value.length
         if (!flag) {
           for (let i = 0; i < val.length; i++) {
             if (val[i] !== this.value[i]) {
-              flag = true;
-              break;
+              flag = true
+              break
             }
           }
         }
-        return flag;
+        return flag
       }
-      return val === this.value;
+      return val === this.value
     },
     getMultibleValue(val) {
-      let res = val;
+      let res = val
       if (this.valueAs && this.multiple) {
-        let tmpVal = Array.isArray(val) ? val : [];
-        res = this.options.filter(item => item && tmpVal.find(i => i === item[this.valueAs]));
+        let tmpVal = Array.isArray(val) ? val : []
+        res = this.options.filter(item => item && tmpVal.find(i => i === item[this.valueAs]))
       } else if (this.valueAs) {
-        res = this.options.find(item => item && item[this.valueAs] === val);
+        res = this.options.find(item => item && item[this.valueAs] === val)
       }
-      return res;
+      return res
     },
 
     /**
@@ -439,19 +441,19 @@ export default {
     select(option) {
       if (!this.isOptionSelected(option)) {
         if (this.taggable && !this.optionExists(option)) {
-          option = this.createOption(option);
+          option = this.createOption(option)
         }
 
         if (this.multiple && !this.mutableValue) {
-          this.mutableValue = [option];
+          this.mutableValue = [option]
         } else if (this.multiple) {
-          this.mutableValue.push(option);
+          this.mutableValue.push(option)
         } else {
-          this.mutableValue = option;
+          this.mutableValue = option
         }
       }
 
-      this.onAfterSelect(option);
+      this.onAfterSelect(option)
     },
 
     /**
@@ -461,16 +463,16 @@ export default {
      */
     deselect(option) {
       if (this.multiple) {
-        let ref = -1;
+        let ref = -1
         this.mutableValue.forEach(val => {
-          if (val === option || (typeof val === "object" && val[this.label] === option[this.label])) {
-            ref = val;
+          if (val === option || (typeof val === 'object' && val[this.label] === option[this.label])) {
+            ref = val
           }
-        });
-        var index = this.mutableValue.indexOf(ref);
-        this.mutableValue.splice(index, 1);
+        })
+        var index = this.mutableValue.indexOf(ref)
+        this.mutableValue.splice(index, 1)
       } else {
-        this.mutableValue = null;
+        this.mutableValue = null
       }
     },
 
@@ -479,7 +481,7 @@ export default {
      * @return {void}
      */
     clearSelection() {
-      this.mutableValue = this.multiple ? [] : null;
+      this.mutableValue = this.multiple ? [] : null
     },
 
     /**
@@ -489,12 +491,12 @@ export default {
      */
     onAfterSelect(option) {
       if (this.closeOnSelect) {
-        this.open = !this.open;
-        this.$refs.search.blur();
+        this.open = !this.open
+        this.$refs.search.blur()
       }
 
       if (this.clearSearchOnSelect) {
-        this.search = "";
+        this.search = ''
       }
     },
 
@@ -506,11 +508,11 @@ export default {
     toggleDropdown(e) {
       if (e.target === this.$refs.openIndicator || e.target === this.$refs.search || e.target === this.$refs.toggle || e.target === this.$el) {
         if (this.open) {
-          this.$refs.search.blur(); // dropdown will close on blur
+          this.$refs.search.blur() // dropdown will close on blur
         } else {
           if (!this.disabled) {
-            this.open = true;
-            this.$refs.search.focus();
+            this.open = true
+            this.$refs.search.focus()
           }
         }
       }
@@ -523,20 +525,20 @@ export default {
      */
     isOptionSelected(option) {
       if (this.multiple && this.mutableValue) {
-        let selected = false;
+        let selected = false
         this.mutableValue.forEach(opt => {
-          if (typeof opt === "object" && opt[this.label] === option[this.label]) {
-            selected = true;
-          } else if (typeof opt === "object" && opt[this.label] === option) {
-            selected = true;
+          if (typeof opt === 'object' && opt[this.label] === option[this.label]) {
+            selected = true
+          } else if (typeof opt === 'object' && opt[this.label] === option) {
+            selected = true
           } else if (opt === option) {
-            selected = true;
+            selected = true
           }
-        });
-        return selected;
+        })
+        return selected
       }
 
-      return this.mutableValue === option;
+      return this.mutableValue === option
     },
 
     /**
@@ -546,9 +548,9 @@ export default {
      */
     onEscape() {
       if (!this.search.length) {
-        this.$refs.search.blur();
+        this.$refs.search.blur()
       } else {
-        this.search = "";
+        this.search = ''
       }
     },
 
@@ -559,10 +561,10 @@ export default {
      */
     onSearchBlur() {
       if (this.clearSearchOnBlur) {
-        this.search = "";
+        this.search = ''
       }
-      this.open = false;
-      this.$emit("search:blur");
+      this.open = false
+      this.$emit('search:blur')
     },
 
     /**
@@ -571,8 +573,8 @@ export default {
      * @return {void}
      */
     onSearchFocus() {
-      this.open = true;
-      this.$emit("search:focus");
+      this.open = true
+      this.$emit('search:focus')
     },
 
     /**
@@ -582,7 +584,7 @@ export default {
      */
     maybeDeleteValue() {
       if (!this.$refs.search.value.length && this.mutableValue) {
-        return this.multiple ? this.mutableValue.pop() : (this.mutableValue = null);
+        return this.multiple ? this.mutableValue.pop() : (this.mutableValue = null)
       }
     },
 
@@ -594,17 +596,17 @@ export default {
      * @return {boolean}
      */
     optionExists(option) {
-      let exists = false;
+      let exists = false
 
       this.mutableOptions.forEach(opt => {
-        if (typeof opt === "object" && opt[this.label] === option) {
-          exists = true;
+        if (typeof opt === 'object' && opt[this.label] === option) {
+          exists = true
         } else if (opt === option) {
-          exists = true;
+          exists = true
         }
-      });
+      })
 
-      return exists;
+      return exists
     },
 
     /**
@@ -616,7 +618,7 @@ export default {
      */
     maybePushTag(option) {
       if (this.pushTags) {
-        this.mutableOptions.push(option);
+        this.mutableOptions.push(option)
       }
     }
   },
@@ -634,9 +636,9 @@ export default {
         searchable: this.searchable,
         unsearchable: !this.searchable,
         loading: this.mutableLoading,
-        rtl: this.dir === "rtl",
+        rtl: this.dir === 'rtl',
         disabled: this.disabled
-      };
+      }
     },
 
     /**
@@ -644,7 +646,7 @@ export default {
      * @return {Boolean} True when single and clearSearchOnSelect
      */
     clearSearchOnBlur() {
-      return this.clearSearchOnSelect && !this.multiple;
+      return this.clearSearchOnSelect && !this.multiple
     },
 
     /**
@@ -653,7 +655,7 @@ export default {
      * @return {Boolean} True if non empty value
      */
     searching() {
-      return !!this.search;
+      return !!this.search
     },
 
     /**
@@ -662,7 +664,7 @@ export default {
      * @return {Boolean} True if open
      */
     dropdownOpen() {
-      return this.noDrop ? false : this.open && !this.mutableLoading;
+      return this.noDrop ? false : this.open && !this.mutableLoading
     },
 
     /**
@@ -672,7 +674,7 @@ export default {
      */
     searchPlaceholder() {
       if (this.isValueEmpty && this.placeholder) {
-        return this.placeholder;
+        return this.placeholder
       }
     },
 
@@ -686,13 +688,13 @@ export default {
      */
     filteredOptions() {
       if (!this.filterable && !this.taggable) {
-        return this.mutableOptions.slice();
+        return this.mutableOptions.slice()
       }
-      let options = this.search.length ? this.filter(this.mutableOptions, this.search, this) : this.mutableOptions;
+      let options = this.search.length ? this.filter(this.mutableOptions, this.search, this) : this.mutableOptions
       if (this.taggable && this.search.length && !this.optionExists(this.search)) {
-        options.unshift(this.search);
+        options.unshift(this.search)
       }
-      return options;
+      return options
     },
 
     /**
@@ -701,13 +703,13 @@ export default {
      */
     isValueEmpty() {
       if (this.mutableValue) {
-        if (typeof this.mutableValue === "object") {
-          return !Object.keys(this.mutableValue).length;
+        if (typeof this.mutableValue === 'object') {
+          return !Object.keys(this.mutableValue).length
         }
-        return !this.mutableValue.length;
+        return !this.mutableValue.length
       }
 
-      return true;
+      return true
     },
 
     /**
@@ -716,12 +718,12 @@ export default {
      */
     valueAsArray() {
       if (this.multiple) {
-        return this.mutableValue;
+        return this.mutableValue
       } else if (this.mutableValue) {
-        return [].concat(this.mutableValue);
+        return [].concat(this.mutableValue)
       }
 
-      return [];
+      return []
     },
 
     /**
@@ -729,7 +731,7 @@ export default {
      * @return {Boolean}
      */
     showClearButton() {
-      return !this.multiple && this.clearable && !this.open && this.mutableValue != null;
+      return !this.multiple && this.clearable && !this.open && this.mutableValue != null
     }
   }
-};
+}
