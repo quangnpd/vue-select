@@ -422,7 +422,7 @@ export default {
           }
         }
         return flag
-      } else if (this.valueAs) {
+      } else if (this.valueAs && this.mutableValue) {
         return val !== this.mutableValue[this.valueAs]
       }
       return val !== this.mutableValue
