@@ -422,8 +422,10 @@ export default {
           }
         }
         return flag
+      } else if (this.valueAs) {
+        return val !== this.mutableValue[this.valueAs]
       }
-      return val === this.mutableValue
+      return val !== this.mutableValue
     },
     getMultibleValue(val) {
       let res = val
