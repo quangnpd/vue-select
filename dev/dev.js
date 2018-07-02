@@ -13,18 +13,19 @@ Vue.component('v-select', vSelect)
 new Vue({
   el: '#app',
   data: {
-    placeholder: "placeholder",
+    placeholder: 'placeholder',
     value: null,
     options: countries,
     ajaxRes: [],
     people: [],
     fuseSearchOptions,
     test: 'foo',
-    test2: ['foo', 'foo2']
+    test2: ['foo', 'foo2'],
+    selectedOptions: null
   },
   methods: {
     search(search, loading) {
-      loading(true);
+      loading(true)
       this.getRepositories(search, loading, this)
     },
     searchPeople(search, loading) {
@@ -39,14 +40,14 @@ new Vue({
     }, 250),
     getRepositories: debounce((search, loading, vm) => {
       vm.$http.get(`https://api.github.com/search/repositories?q=${search}`).then(res => {
-        vm.ajaxRes = res.data.items;
+        vm.ajaxRes = res.data.items
         loading(false)
       })
     }, 250),
     fuseSearch(options, search) {
       return new Fuse(options, {
-        keys: ['title', 'author.firstName', 'author.lastName'],
-      }).search(search);
+        keys: ['title', 'author.firstName', 'author.lastName']
+      }).search(search)
     }
   }
-});
+})

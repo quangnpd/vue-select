@@ -339,9 +339,8 @@ export default {
      * @param  {mixed} val
      * @return {void}
      */
-    value(val, old) {
-      //check here
-      if (this.valueHasChange(old)) {
+    value(val) {
+      if (this.valueHasChange(val)) {
         this.mutableValue = this.getMultibleValue(val)
       }
     },
@@ -409,10 +408,14 @@ export default {
   methods: {
     valueHasChange(val) {
       if (this.multiple) {
-        let flag = !Array.isArray(val) || !Array.isArray(this.value) || val.length !== this.value.length
+        let compareWith = this.mutableValue
+        if (this.valueAs) {
+          compareWith = this.mutableValue.map(item => item[this.valueAs])
+        }
+        let flag = !Array.isArray(val) || !Array.isArray(compareWith) || val.length !== compareWith.length
         if (!flag) {
           for (let i = 0; i < val.length; i++) {
-            if (val[i] !== this.value[i]) {
+            if (val[i] !== compareWith[i]) {
               flag = true
               break
             }
@@ -420,7 +423,7 @@ export default {
         }
         return flag
       }
-      return val === this.value
+      return val === this.mutableValue
     },
     getMultibleValue(val) {
       let res = val
