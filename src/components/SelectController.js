@@ -339,9 +339,9 @@ export default {
      * @param  {mixed} val
      * @return {void}
      */
-    value(val) {
+    value(val, old) {
       //check here
-      if (this.valueHasChange(val)) {
+      if (this.valueHasChange(old)) {
         this.mutableValue = this.getMultibleValue(val)
       }
     },
