@@ -341,7 +341,9 @@ export default {
      */
     value(val) {
       //check here
-      this.mutableValue = this.getMultibleValue(val)
+      if (this.valueHasChange(val)) {
+        this.mutableValue = this.getMultibleValue(val)
+      }
     },
 
     /**
