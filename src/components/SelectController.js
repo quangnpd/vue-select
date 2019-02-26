@@ -147,11 +147,7 @@ export default {
       default(option) {
         if (typeof option === 'object') {
           if (!option.hasOwnProperty(this.label)) {
-            return console.warn(
-              `[vue-select warn]: Label key "option.${this.label}" does not` +
-                ` exist in options object ${JSON.stringify(option)}.\n` +
-                'http://sagalbot.github.io/vue-select/#ex-labels'
-            )
+            return console.warn(`[vue-select warn]: Label key "option.${this.label}" does not` + ` exist in options object ${JSON.stringify(option)}.\n` + 'http://sagalbot.github.io/vue-select/#ex-labels')
           }
           if (this.label && option[this.label]) {
             return option[this.label]
@@ -377,7 +373,7 @@ export default {
     mutableOptions() {
       if (!this.taggable && this.resetOnOptionsChange) {
         this.mutableValue = this.multiple ? [] : null
-      } else if(!this.open) {
+      } else if (!this.open) {
         this.mutableValue = this.getMultibleValue(this.value || this.mutableValue)
       }
     },

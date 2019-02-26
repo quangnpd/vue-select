@@ -16,8 +16,9 @@
 
       <input ref="search" v-model="search" @keydown.delete="maybeDeleteValue" @keyup.esc="onEscape" @keydown.up.prevent="typeAheadUp"
         @keydown.down.prevent="typeAheadDown" @keydown.enter.prevent="typeAheadSelect" @blur="onSearchBlur" @focus="onSearchFocus"
-        type="search" class="form-control" autocomplete="off" :disabled="disabled" :placeholder="searchPlaceholder" :tabindex="tabindex"
-        :readonly="!searchable" :style="{ width: isValueEmpty ? '100%' : 'auto' }" :id="inputId" aria-label="Search for option">
+        type="search" class="form-control" autocomplete="off" :disabled="disabled" :placeholder="searchPlaceholder"
+        :tabindex="tabindex" :readonly="!searchable" :style="{ width: isValueEmpty ? '100%' : 'auto' }" :id="inputId"
+        aria-label="Search for option">
 
       <button v-show="showClearButton" :disabled="disabled" @click="clearSelection" type="button" class="clear" title="Clear selection">
         <span aria-hidden="true">&times;</span>
@@ -31,19 +32,23 @@
     </div>
 
     <transition :name="transition">
-      <ul ref="dropdownMenu" v-if="dropdownOpen" class="dropdown-menu" :style="{ 'max-height': maxHeight }">
-        <li v-for="(option, index) in filteredOptions" v-bind:key="index" :class="{ active: isOptionSelected(option), highlight: index === typeAheadPointer }"
-          @mouseover="typeAheadPointer = index">
-          <a @mousedown.prevent="select(option)">
-            <slot name="option" v-bind="(typeof option === 'object')?option:{[label]: option}">
-              {{ getOptionLabel(option) }}
-            </slot>
-          </a>
-        </li>
-        <li v-if="!filteredOptions.length" class="no-options">
-          <slot name="no-options">Sorry, no matching options.</slot>
-        </li>
-      </ul>
+      <div v-if="dropdownOpen" class="dropdown-menu-container">
+        <slot name="before-options" v-bind="{keyword: search, loading: mutableLoading}"></slot>
+        <ul ref="dropdownMenu" class="dropdown-menu" :style="{ 'max-height': maxHeight }">
+          <li v-for="(option, index) in filteredOptions" v-bind:key="index" :class="{ active: isOptionSelected(option), highlight: index === typeAheadPointer }"
+            @mouseover="typeAheadPointer = index">
+            <a @mousedown.prevent="select(option)">
+              <slot name="option" v-bind="(typeof option === 'object')?option:{[label]: option}">
+                {{ getOptionLabel(option) }}
+              </slot>
+            </a>
+          </li>
+          <li v-if="!filteredOptions.length" class="no-options">
+            <slot name="no-options">Sorry, no matching options.</slot>
+          </li>
+        </ul>
+        <slot name="after-options" v-bind="{keyword: search, loading: mutableLoading}"></slot>
+      </div>
     </transition>
   </div>
 </template>
